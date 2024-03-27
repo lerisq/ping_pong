@@ -34,6 +34,41 @@ player=Player('rocket.png',-50,250,100,200,10)
 player1=Player('rocket.png',650,250,100,200,10)
 ball=GameSprite('ball.png',300,300,50,50,10)
 
+lose1=font1.render('PLAYER 1 LOSE',True,(180,0,0))
+lose2=font1.render('PLAYER 2 LOSE',True,(180,0,0))
 
+speed_x=3
+speed_y=3
+clock=time.Clock()
+FPS=60
+game=True
+finish=False
+while game:
+    for e in event.get():
+        if e.type==QUIT:
+            game=False
+    if finish !=True:
+        window.blit(background,(0, 0))
+        player.update()
+        player1.update_1()
+        ball.reset()
+        ball.rect.x+=speed_x
+        ball.rect.y+=speed_y
+        if ball.rect.y > 450 or ball.rect.y<0:
+            speed_y *=-1
+        if sprite.collide_rect(player,ball) or sprite.collide_rect(player1,ball):
+            speed_x*=-1
+            speed_y*=1
+        if ball.rect.x < 0:
+            finish = True
+            window.blit(lose1, (200,200))
+        if ball.rect.x > 650:
+            finish = True
+            window.blit(lose2, (200,200))
+
+        player.reset()
+        player1.reset()       
+    clock.tick(FPS)
+    display.update()
     clock.tick(FPS)
     display.update()
